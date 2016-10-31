@@ -5,11 +5,16 @@
      http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd
      http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-		<!-- <errorHandler id="defaultErrorHandler" type="TransactionErrorHandler" xmlns="http://camel.apache.org/schema/spring">
+		<errorHandler id="defaultErrorHandler" type="TransactionErrorHandler" xmlns="http://camel.apache.org/schema/spring">
       <redeliveryPolicy maximumRedeliveries="-1" useExponentialBackOff="true" maximumRedeliveryDelay="30000" />
-    </errorHandler> -->
+    </errorHandler>
 
-    <camelContext id="camel" xmlns="http://camel.apache.org/schema/spring">
+    <!-- setup spring jms TX manager -->
+  	<bean id="jmsTransactionManager" class="org.springframework.jms.connection.JmsTransactionManager">
+  	    <property name="connectionFactory" ref="poolConnectionFactory"/>
+  	</bean>
+
+    <camelContext id="camel" xmlns="http://camel.apache.org/schema/spring" errorHandlerRef="defaultErrorHandler" >
         <propertyPlaceholder id="properties" location="file:${activemq.conf}/au.com.marlo.gateway.example.cfg"/>
         <package>au.com.marlo.gateway.example.route</package>
     </camelContext>
@@ -33,6 +38,9 @@
     <bean id="activemq" class="org.apache.activemq.camel.component.ActiveMQComponent">
         <property name="connectionFactory" ref="poolConnectionFactory"/>
         <property name="maxConcurrentConsumers" value="1" />
+
+        <property name="transacted" value="true"/>
+        <property name="transactionManager" ref="jmsTransactionManager"/>
     </bean>
 
 </beans>
