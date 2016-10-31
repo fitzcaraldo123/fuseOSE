@@ -14,3 +14,6 @@ To run it, just install **Node.js** in your machine and the run the command : no
 
 For the message system I used **apache-activemq-5.14.1**. Every configuration file that was changed in activemq were put inside
 the **gateway-example** project, into  **amq-cfg** folder. Just replace the env file into /bin folder and the rest into /conf folder.
+Also, add the properties file in the resources folder into Activemq conf/
+
+Deploy the generated jar from **gateway-example** into lib/ folder in Activemq. The application will start with the broker.
