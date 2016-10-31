@@ -1,4 +1,4 @@
-<xt:reponse xmlns:xt="http://www.marlo.com.au//trainning/xmltrainning" xmlns:ord="http://www.marlo.com.au/trainning/xmltrainning/order" xmlns:user="http://www.marlo.com.au/trainning/xmltrainning/user" xmlns:prod="http://www.marlo.com.au/trainning/xmltrainning/product">
+<xt:response xmlns:xt="http://www.marlo.com.au//trainning/xmltrainning" xmlns:ord="http://www.marlo.com.au/trainning/xmltrainning/order" xmlns:user="http://www.marlo.com.au/trainning/xmltrainning/user" xmlns:prod="http://www.marlo.com.au/trainning/xmltrainning/product">
   <!--Zero or more repetitions:-->
   <xt:order>
     <ord:orderNumber>100</ord:orderNumber>
@@ -17,4 +17,4 @@
       <prod:category>string</prod:category>
     </ord:product>
   </xt:order>
-</xt:reponse>
+</xt:response>

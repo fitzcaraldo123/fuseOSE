@@ -8,7 +8,7 @@
 
 <xs:import schemaLocation="Order.xsd"                       namespace="http://www.marlo.com.au/trainning/xmltrainning/order" />
 
-<xs:element name="reponse">
+<xs:element name="response">
   <xs:complexType>
     <xs:sequence>	      	     
       <xs:element name="order" type="ord:order" minOccurs="0" maxOccurs="unbounded"/>      
