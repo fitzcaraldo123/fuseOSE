@@ -1,7 +1,6 @@
 package au.com.marlo.gateway.example;
 
 
-import au.com.marlo.gateway.example.route.RouteTest;
 import org.apache.camel.component.properties.PropertiesComponent;
 import org.apache.camel.main.Main;
 
@@ -24,11 +23,11 @@ public class App {
         /*HeaderHandlerBean bean = new HeaderHandlerBean("x_step_");
         main.bind(HeaderHandlerExampleRouteBuilder.BEAN_NAME, bean);*/
 
-        main.addRouteBuilder(new RouteTest());
+       // main.addRouteBuilder(new RouteTest());
 
         // run until you terminate the JVM
         System.out.println("Starting Camel. Use ctrl + c to terminate the JVM.\n");
-        main.run();
+        //main.run();
     }
 
 }
