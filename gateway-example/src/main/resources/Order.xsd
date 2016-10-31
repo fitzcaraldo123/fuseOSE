@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+	<xs:schema  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+				xmlns:usr="http://www.marlo.com.au/trainning/xmltrainning/user"
+				xmlns:prd="http://www.marlo.com.au/trainning/xmltrainning/product"
+			    targetNamespace="http://www.marlo.com.au/trainning/xmltrainning/order"
+			    elementFormDefault="qualified"		    
+	>
+	<xs:import schemaLocation="User.xsd" namespace="http://www.marlo.com.au/trainning/xmltrainning/user" />
+	<xs:import schemaLocation="Product.xsd" namespace="http://www.marlo.com.au/trainning/xmltrainning/product" />
+	
+	  <xs:complexType name="order">
+	    <xs:sequence>
+	      <xs:element name="orderNumber" type="xs:integer"/>
+	      <xs:element name="user" type="usr:user"/>
+	      <xs:element name="product" type="prd:product" minOccurs="0" maxOccurs="unbounded"/>      
+	    </xs:sequence>
+	  </xs:complexType>
+	
+</xs:schema>

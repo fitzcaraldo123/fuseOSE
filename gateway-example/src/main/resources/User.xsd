@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+		   targetNamespace="http://www.marlo.com.au/trainning/xmltrainning/user"
+		   elementFormDefault="qualified"		   
+>
+	    <xs:complexType name="user">
+	      <xs:sequence>
+	        <xs:element name="name" type="xs:string" />
+	        <xs:element name="age" type="xs:integer" />	        
+	        <xs:element name="gender">
+	          <xs:simpleType>
+	            <xs:restriction base="xs:string">
+	              <xs:enumeration value="male" />
+	              <xs:enumeration value="female" />	              
+	            </xs:restriction>
+	          </xs:simpleType>	        	        
+	        </xs:element>
+	        <xs:element name="documentID" type="xs:integer" />	        
+	        <xs:element name="available_account_credit" type="xs:decimal" />
+	      </xs:sequence>
+	    </xs:complexType>
+</xs:schema>

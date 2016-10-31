@@ -1,0 +1,38 @@
+<beans
+   xmlns="http://www.springframework.org/schema/beans"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="
+     http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd
+     http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+		<!-- <errorHandler id="defaultErrorHandler" type="TransactionErrorHandler" xmlns="http://camel.apache.org/schema/spring">
+      <redeliveryPolicy maximumRedeliveries="-1" useExponentialBackOff="true" maximumRedeliveryDelay="30000" />
+    </errorHandler> -->
+
+    <camelContext id="camel" xmlns="http://camel.apache.org/schema/spring">
+        <propertyPlaceholder id="properties" location="file:${activemq.conf}/au.com.marlo.gateway.example.cfg"/>
+        <package>au.com.marlo.gateway.example.route</package>
+    </camelContext>
+
+    <bean id="poolConnectionFactory" class="org.apache.activemq.pool.PooledConnectionFactory" init-method="start" destroy-method="stop">
+        <property name="maxConnections" value="1"/>
+        <property name="connectionFactory" ref="jmsConnectionFactory"/>
+    </bean>
+
+    <bean id="jmsConnectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory">
+              <property name="brokerURL" value="${amq.broker.url}?create=false&amp;broker.useJmx=false"/>
+              <property name="userName" value="${activemq.username}"/>
+              <property name="password" value="${activemq.password}"/>
+    </bean>
+
+    <bean id="headerHandler" class="au.com.marlo.gateway.camel.bean.HeaderHandlerBean" >
+        <property name="headerPrefix" value="x_step_"/>
+    </bean>
+
+    <!-- define our activemq component -->
+    <bean id="activemq" class="org.apache.activemq.camel.component.ActiveMQComponent">
+        <property name="connectionFactory" ref="poolConnectionFactory"/>
+        <property name="maxConcurrentConsumers" value="1" />
+    </bean>
+
+</beans>
