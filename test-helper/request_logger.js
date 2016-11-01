@@ -28,6 +28,12 @@ server.on('request', (req, res) => {
                 });
                 fs.createReadStream('Response2.xml').pipe(res);
                 break;
+            case '/errorResponse':
+                res.writeHead(200, {
+                    'Content-Type': 'application/xml'
+                });
+                fs.createReadStream('BodyWithError.xml').pipe(res);
+                break;
             default:
                 res.writeHead(404, {
                     'Content-Type': 'text/plain'

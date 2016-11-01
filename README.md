@@ -17,3 +17,14 @@ the **gateway-example** project, into  **amq-cfg** folder. Just replace the env 
 Also, add the properties file in the resources folder into Activemq conf/
 
 Deploy the generated jar from **gateway-example** into lib/ folder in Activemq. The application will start with the broker.
+
+1. Testing HeaderHandlerExampleRouteBuilder
+  
+    the idea on this route is to simulate various state changes in the message, so in the last destination we have all the body changes
+    in the last message. 
+    
+    [ActiveMQ Console](http://localhost:8161/admin/) or [Hawtio](http://localhost:8161/hawtio/) to send a message to FirstQueue.
+    By the end of the process you should have a message in the fourthResponse queue. 
+    
+    If you want to test how try catch handles validation exceptions, just change one of the external URL from cfg to "/errorResponse".
+    This way the node server will send an invalid message body.
