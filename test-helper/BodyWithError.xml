@@ -1,20 +1,20 @@
 <xt:response xmlns:xt="http://www.marlo.com.au//trainning/xmltrainning" xmlns:ord="http://www.marlo.com.au/trainning/xmltrainning/order" xmlns:user="http://www.marlo.com.au/trainning/xmltrainning/user" xmlns:prod="http://www.marlo.com.au/trainning/xmltrainning/product">
   <!--Zero or more repetitions:-->
   <xt:order>
-    <ord:orderNumber>600</ord:orderNumber>
+    <ord:orderNumber>100</ord:orderNumber>
     <ord:user>
-      <user:name>Tester</user:name>
-      <user:age>25</user:age>
+      <user:name>guilherme</user:name>
+      <user:age>100</user:age>
       <user:gender>male</user:gender>
-      <user:documentID>777</user:documentID>
-      <user:available_account_credit>9000.00</user:available_account_credit>
+      <user:documentID>7777999</user:documentID>
+      <user:available_account_credit>1000000.00</user:available_account_credit>
     </ord:user>
     <!--Zero or more repetitions:-->
     <ord:product>
-      <prod:productCode>AAAAA0000</prod:productCode>
-      <prod:description>Coke Can</prod:description>
-      <prod:price>50.00</prod:price>
-      <prod:category>drinks</prod:category>
+      <prod:productCode><!--BBBBB1111-->A</prod:productCode>
+      <prod:description>prods</prod:description>
+      <prod:price>500.00</prod:price>
+      <prod:category>eletronics</prod:category>
     </ord:product>
   </xt:order>
 </xt:response>
