@@ -1,6 +1,6 @@
 package au.com.marlo.gateway.example.route;
 
-import au.com.marlo.gateway.camel.bean.BodyToString;
+import au.com.marlo.gateway.camel.processor.BodyToString;
 import org.apache.camel.LoggingLevel;
 import org.apache.camel.ValidationException;
 import org.apache.camel.builder.RouteBuilder;
@@ -59,7 +59,7 @@ public class HeaderHandlerExampleRouteBuilder extends RouteBuilder {
                         .log("body on Route3 : ${body} ")
                         .bean(BEAN_NAME,"headersToProperties")
                         .log("headers Route3 : ${headers} \n body on Route3 : ${body}")
-                        .bean(BEAN_NAME,"loggAllExchangeProperties")
+                        .bean(BEAN_NAME,"loggAllExchangeProperties" )
                     .to("{{route3.external.endpoint}}")
                     .process(bodyToString)
                     .doTry()
@@ -80,6 +80,19 @@ public class HeaderHandlerExampleRouteBuilder extends RouteBuilder {
                     .log("headers on route 4: ${headers} \n body on route 3 : ${body}")
                     .bean(BEAN_NAME, "concatAllStepsToBody")
                     .to("{{route4.to}}");
+
+            from("{{route5.from}}")
+                    .to("{{route5.external.endpoint}}")
+                    .process(bodyToString)
+                    .setHeader("xpath_namespaces", constant("" +
+                            "xt|http://www.marlo.com.au//trainning/xmltrainning;" +
+                            "ord|http://www.marlo.com.au/trainning/xmltrainning/order;" +
+                            "user|http://www.marlo.com.au/trainning/xmltrainning/user;" +
+                            "prod|http://www.marlo.com.au/trainning/xmltrainning/product"))
+                    .setHeader("xpath_query", constant("//ord:product"))
+                    .log("body on Route5 : ${body} ")
+                    .bean(BEAN_NAME,"bodyToHeader")
+                    .to("{{route5.to}}");
 
         }catch(Exception exception){
             logger.error("error trying to create route");

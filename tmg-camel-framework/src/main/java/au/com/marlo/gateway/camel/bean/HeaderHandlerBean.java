@@ -2,6 +2,8 @@ package au.com.marlo.gateway.camel.bean;
 
 
 import org.apache.camel.Exchange;
+import org.apache.camel.builder.xml.Namespaces;
+import org.apache.camel.builder.xml.XPathBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,6 +16,8 @@ public class HeaderHandlerBean {
     private static final Logger logger = LoggerFactory.getLogger(HeaderHandlerBean.class);
 
     private  String headerPrefix;
+    private String xpathHeader="xpath_query";
+    private String xpathNamespaces = "xpath_namespaces";
 
 
     public HeaderHandlerBean(){
@@ -31,25 +35,67 @@ public class HeaderHandlerBean {
      */
     public void bodyToHeader(Exchange exchange){
         logger.info("entered bodyToHeader");
-     Map<String, Object> headers = exchange.getIn().getHeaders();
+        Map<String, Object> headers = exchange.getIn().getHeaders();
 
-     int specialHeaderIndex = 0;
+        int specialHeaderIndex = 0;
+        String xpathQuery = "";
 
         for (String key: headers.keySet() ) {
             if(key.contains(headerPrefix)){
-               specialHeaderIndex = Integer.valueOf(key.substring( headerPrefix.length() ));
+                specialHeaderIndex = Integer.valueOf(key.substring( headerPrefix.length() ));
+            }
+            else if(key.equals(xpathHeader))
+            {
+                xpathQuery = (String) headers.get(xpathHeader);
             }
         }
 
-       ++ specialHeaderIndex;
+        ++ specialHeaderIndex;
         logger.info("setting header :" + headerPrefix + specialHeaderIndex );
         //converting every body to string so it can be in the header
+
         String body =  exchange.getIn().getBody(String.class);
+        String nsString = (String) exchange.getIn().getHeader(xpathNamespaces);
+        logger.info("Namespace string : " + nsString);
+
+        exchange.getIn().removeHeader(xpathHeader);
+        exchange.getIn().removeHeader(xpathNamespaces);
+
+        if( (xpathQuery != null) && (!xpathQuery.equals("")))
+        {
+            body = applyXpathQuery(exchange, xpathQuery, body, nsString);
+        }
 
         logger.info("received body " + body);
 
         exchange.getIn().setHeader(headerPrefix + specialHeaderIndex, body );
         exchange.getIn().setBody("");
+    }
+
+    /**
+     * Filters body message according to xpath query.
+     * @param exchange
+     * @param xpathQuery
+     * @param body
+     * @param nsString
+     * @return
+     */
+    private String applyXpathQuery(Exchange exchange, String xpathQuery, String body, String nsString) {
+        logger.info("Xpath query: " + xpathQuery);
+        Namespaces ns = new Namespaces("","");
+        if( (nsString != null) && (!nsString.equals(""))) {
+            String[] nsElements = nsString.split(";");
+            logger.info("Namespaces specified : ");
+            for ( String element : nsElements )
+            {
+                String[] nsConfig = element.split("\\|");
+                ns.add(nsConfig[0], nsConfig[1]);
+                logger.info("Prefix : " + nsConfig[0] + " URL: " + nsConfig[1]);
+            }
+        }
+        body = XPathBuilder.xpath(xpathQuery).namespaces(ns)
+                .evaluate(exchange.getContext(), body, String.class);
+        return body;
     }
 
 
