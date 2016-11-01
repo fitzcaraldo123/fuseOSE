@@ -81,19 +81,6 @@ public class HeaderHandlerExampleRouteBuilder extends RouteBuilder {
                     .bean(BEAN_NAME, "concatAllStepsToBody")
                     .to("{{route4.to}}");
 
-            from("{{route5.from}}")
-                    .to("{{route5.external.endpoint}}")
-                    .process(bodyToString)
-                    .setHeader("xpath_namespaces", constant("" +
-                            "xt|http://www.marlo.com.au//trainning/xmltrainning;" +
-                            "ord|http://www.marlo.com.au/trainning/xmltrainning/order;" +
-                            "user|http://www.marlo.com.au/trainning/xmltrainning/user;" +
-                            "prod|http://www.marlo.com.au/trainning/xmltrainning/product"))
-                    .setHeader("xpath_query", constant("//ord:product"))
-                    .log("body on Route5 : ${body} ")
-                    .bean(BEAN_NAME,"bodyToHeader")
-                    .to("{{route5.to}}");
-
         }catch(Exception exception){
             logger.error("error trying to create route");
             logger.error(exception.getMessage());
